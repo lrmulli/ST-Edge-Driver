@@ -1,4 +1,4 @@
-name: 'Hue Dimmer Switch'
-packageKey: 'hue-dimmer-switch'
+name: 'Ikea Styrbar Remote'
+packageKey: 'ikea-styrbar-remote'
 permissions:
   zigbee: {}
