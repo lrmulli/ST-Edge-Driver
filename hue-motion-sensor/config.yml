@@ -1,4 +1,0 @@
-name: 'Hue Motion Sensor'
-packageKey: 'hue-motion-sensor'
-permissions:
-  zigbee: {}
