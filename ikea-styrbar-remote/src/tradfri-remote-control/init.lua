@@ -24,37 +24,26 @@ end
 function toggle_handler_up(driver, device, value, zb_rx)
   log.debug("Handling Tradfri TOGGLE - UP")
   device:emit_event_for_endpoint(1, capabilities.button.button.pushed({ state_change = true }))
-  --device:emit_event(capabilities.button.button.pushed({ state_change = true }))
+  device:emit_event(capabilities.button.button.pushed({ state_change = true }))
 end
 function toggle_handler_down(driver, device, value, zb_rx)
     log.debug("Handling Tradfri TOGGLE - DOWN")
     device:emit_event_for_endpoint(2, capabilities.button.button.pushed({ state_change = true }))
-    --device:emit_event(capabilities.button.button.pushed({ state_change = true }))
-  end
-
-local function toggle_held_handler(driver, device, zb_rx)
-    log.debug("Handling Tradfri TOGGLE button HELD, value: " .. zb_rx.body.zcl_body.body_bytes:byte(1))
-    local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 1 and 3 or 4
-    device:emit_event_for_endpoint(button_number, capabilities.button.button.held({ state_change = true }))
+    device:emit_event(capabilities.button.button.pushed({ state_change = true }))
   end
 
 
 function held_up_handler(driver, device, value, zb_rx)
   log.debug("Handling Tradfri held UP")
   device:emit_event_for_endpoint(1, capabilities.button.button.held({ state_change = true }))
-  --device:emit_event(capabilities.button.button.held({ state_change = true }))
+  device:emit_event(capabilities.button.button.held({ state_change = true }))
 end
 
-function pushed_down_handler(driver, device, value, zb_rx)
-  log.debug("Handling Tradfri pushed DOWN")
-  device:emit_event_for_endpoint(2, capabilities.button.button.pushed({ state_change = true }))
-  device:emit_event(capabilities.button.button.pushed({ state_change = true }))
-end
 
 function held_down_handler(driver, device, value, zb_rx)
   log.debug("Handling Tradfri held DOWN")
   device:emit_event_for_endpoint(2, capabilities.button.button.held({ state_change = true }))
-  --device:emit_event(capabilities.button.button.held({ state_change = true }))
+  device:emit_event(capabilities.button.button.held({ state_change = true }))
 end
 
 local function left_right_pushed_handler(driver, device, zb_rx)
@@ -62,12 +51,14 @@ local function left_right_pushed_handler(driver, device, zb_rx)
   local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 0 and 4 or 3
   log.debug("Button Number: ".. button_number)
   device:emit_event_for_endpoint(button_number, capabilities.button.button.pushed({ state_change = true }))
+  device:emit_event(capabilities.button.button.held({ state_change = true }))
 end
 
 local function left_right_held_handler(driver, device, zb_rx)
   log.debug("Handling Tradfri left/right button HELD, value: " .. zb_rx.body.zcl_body.body_bytes:byte(1))
   local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 1 and 3 or 4
   device:emit_event_for_endpoint(button_number, capabilities.button.button.held({ state_change = true }))
+  device:emit_event(capabilities.button.button.held({ state_change = true }))
 end
 
 function not_held_handler(driver, device, value, zb_rx)
