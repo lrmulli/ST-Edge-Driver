@@ -1,6 +1,6 @@
 zigbeeManufacturer:
   - id: ikea-styrbar-remote-1
-    deviceLabel: Hue Dimmer Switch
+    deviceLabel: Styrbar Remote
     manufacturer: IKEA of Sweden
     model: Remote Control N2
     deviceProfileName: ikea-styrbar-remote
