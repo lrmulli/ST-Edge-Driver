@@ -115,7 +115,7 @@ local function device_init(driver, device, event, args)
   device:emit_event(capabilities.button.button.pushed())
   for i = 1, 4 do
     device:emit_event_for_endpoint(i, capabilities.button.numberOfButtons(1))
-    device:emit_event_for_endpoint(i, capabilities.button.supportedButtonValues(i ~= 4 and {'pushed', 'held'} or {'pushed'}))
+    device:emit_event_for_endpoint(i, capabilities.button.supportedButtonValues({'pushed', 'held'}))
     device:emit_event_for_endpoint(i, capabilities.button.button.pushed())
   end
 end
