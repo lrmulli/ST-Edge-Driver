@@ -51,7 +51,7 @@ local function left_right_pushed_handler(driver, device, zb_rx)
   local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 0 and 4 or 3
   log.debug("Button Number: ".. button_number)
   device:emit_event_for_endpoint(button_number, capabilities.button.button.pushed({ state_change = true }))
-  device:emit_event(capabilities.button.button.held({ state_change = true }))
+  device:emit_event(capabilities.button.button.pushed({ state_change = true }))
 end
 
 local function left_right_held_handler(driver, device, zb_rx)
