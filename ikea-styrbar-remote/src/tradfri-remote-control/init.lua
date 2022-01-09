@@ -48,10 +48,13 @@ end
 
 local function left_right_pushed_handler(driver, device, zb_rx)
   log.debug("Handling Tradfri left/right button PUSHED, value: " .. zb_rx.body.zcl_body.body_bytes:byte(1))
-  local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 0 and 4 or 3
-  log.debug("Button Number: ".. button_number)
-  device:emit_event_for_endpoint(button_number, capabilities.button.button.pushed({ state_change = true }))
-  device:emit_event(capabilities.button.button.pushed({ state_change = true }))
+  -- Skip if left or right are button held
+  if(zb_rx.body.zcl_body.body_bytes:byte(1) ~= 2) then
+    local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 0 and 4 or 3
+    log.debug("Button Number: ".. button_number)
+    device:emit_event_for_endpoint(button_number, capabilities.button.button.pushed({ state_change = true }))
+    device:emit_event(capabilities.button.button.pushed({ state_change = true }))
+  end
 end
 
 local function left_right_held_handler(driver, device, zb_rx)
