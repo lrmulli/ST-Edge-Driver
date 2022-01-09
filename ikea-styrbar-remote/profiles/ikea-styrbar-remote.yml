@@ -1,18 +1,18 @@
 name: ikea-styrbar-remote
 components:
-- id: button1
+- id: Up
   capabilities:
   - id: button
     version: 1
-- id: button2
+- id: Down
   capabilities:
   - id: button
     version: 1
-- id: button3
+- id: Left
   capabilities:
   - id: button
     version: 1
-- id: button4
+- id: Right
   capabilities:
   - id: button
     version: 1
