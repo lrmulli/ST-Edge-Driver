@@ -56,9 +56,9 @@ end
 
 local function left_right_held_handler(driver, device, zb_rx)
   log.debug("Handling Tradfri left/right button HELD, value: " .. zb_rx.body.zcl_body.body_bytes:byte(1))
-  local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 1 and 3 or 4
-  device:emit_event_for_endpoint(button_number, capabilities.button.button.held({ state_change = true }))
-  device:emit_event(capabilities.button.button.held({ state_change = true }))
+  --local button_number = zb_rx.body.zcl_body.body_bytes:byte(1) == 1 and 3 or 4
+  --device:emit_event_for_endpoint(button_number, capabilities.button.button.held({ state_change = true }))
+  --device:emit_event(capabilities.button.button.held({ state_change = true }))
 end
 
 function not_held_handler(driver, device, value, zb_rx)
@@ -115,7 +115,11 @@ local function device_init(driver, device, event, args)
   device:emit_event(capabilities.button.button.pushed())
   for i = 1, 4 do
     device:emit_event_for_endpoint(i, capabilities.button.numberOfButtons(1))
-    device:emit_event_for_endpoint(i, capabilities.button.supportedButtonValues({'pushed', 'held'}))
+    if i == 1 or i ==2 then
+      device:emit_event_for_endpoint(i, capabilities.button.supportedButtonValues({'pushed', 'held'}))
+    else
+      device:emit_event_for_endpoint(i, capabilities.button.supportedButtonValues({'pushed'}))
+    end
     device:emit_event_for_endpoint(i, capabilities.button.button.pushed())
   end
 end
