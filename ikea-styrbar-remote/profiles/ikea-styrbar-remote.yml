@@ -24,6 +24,15 @@ components:
     version: 1    
   categories:
   - name: RemoteController
+preferences:
+  - name: "group"
+    title: "Group"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 0
 metadata:
   mnmn: SmartThingsCommunity
   ocfDeviceType: x.com.st.d.remotecontroller  

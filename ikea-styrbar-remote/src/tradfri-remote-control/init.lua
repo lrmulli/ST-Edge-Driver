@@ -13,6 +13,7 @@ local zdo_messages = require "st.zigbee.zdo"
 local utils = require "st.utils"
 local device_management = require "st.zigbee.device_management"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+local zigbee_utils = require "zigbee_utils"
 
 
 local is_tradfri_remote_control = function(opts, driver, device)
@@ -140,12 +141,30 @@ local function zdo_binding_table_handler(driver, device, zb_rx)
   end
 end
 
+local function device_info_changed(driver, device, event, args)
+  -- Did my preference value change
+    if args.old_st_store.preferences.group ~= device.preferences.group then
+      log.info("Group Id Changed: "..device.preferences.group)
+      local group = device.preferences.group
+      local oldgroup = args.old_st_store.preferences.group
+      zigbee_utils.send_unbind_request(device, OnOff.ID, oldgroup)
+      zigbee_utils.send_unbind_request(device, Scenes.ID, oldgroup)
+      zigbee_utils.send_unbind_request(device, Level.ID, oldgroup)
+      if(group > 0) then
+        zigbee_utils.send_bind_request(device, OnOff.ID, group)
+        zigbee_utils.send_bind_request(device, Scenes.ID, group)
+        zigbee_utils.send_bind_request(device, Level.ID, group)
+      end
+    end
+end
+
 local tradfri_remote_control = {
   NAME = "IKEA Tradfri Remote Control",
   lifecycle_handlers = {
     init = device_init,
     added = device_added,
-    doConfigure = device_configure
+    doConfigure = device_configure,
+    infoChanged = device_info_changed
   },
   supported_capabilities = {
     capabilities.battery,
